@@ -4,9 +4,9 @@ from rest_framework import routers
 from news import views
 
 news_router = routers.DefaultRouter()
-news_router.register('', views.ArticleViewSet)
+news_router.register('articles', views.ArticleViewSet)
 
-app_name = 'articles'
+app_name = 'news'
 urlpatterns = [
-    path('api/articles/', include(news_router.urls)),
+    path('api/news/', include(news_router.urls)),
 ]
