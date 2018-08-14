@@ -1,7 +1,6 @@
 from rest_framework import viewsets
-from news import models
 
-from news import serializers
+from news import models, serializers
 
 
 class ArticleViewSet(viewsets.ReadOnlyModelViewSet):
