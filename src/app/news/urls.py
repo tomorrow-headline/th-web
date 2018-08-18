@@ -5,6 +5,7 @@ from news import views
 
 news_router = routers.DefaultRouter()
 news_router.register('articles', views.ArticleViewSet)
+news_router.register('comments', views.CommentViewSet)
 
 app_name = 'news'
 urlpatterns = [
