@@ -1,3 +1,4 @@
+from django.contrib.auth import models as auth_models
 from django.db import models
 
 
@@ -17,3 +18,10 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.content
+
+
+class User(auth_models.AbstractUser):
+    nickname = models.CharField(max_length=20)
+    bio = models.TextField(max_length=500, blank=True)
+    ico = models.ImageField(blank=True)
+    user = models.OneToOneField(auth_models.User, on_delete=models.CASCADE)
