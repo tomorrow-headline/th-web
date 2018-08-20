@@ -1,5 +1,7 @@
 from django.contrib.auth import models as auth_models
 from django.db import models
+from django.dispatch import receiver
+from django.utils.text import slugify
 
 
 class Article(models.Model):
@@ -20,8 +22,19 @@ class Comment(models.Model):
         return self.content
 
 
-class User(auth_models.AbstractUser):
+class User(models.Model):
     nickname = models.CharField(max_length=20)
     bio = models.TextField(max_length=500, blank=True)
     ico = models.ImageField(blank=True)
     user = models.OneToOneField(auth_models.User, on_delete=models.CASCADE)
+
+
+@receiver(models.post_save, sender=auth_models.User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        User.objects.create(user=instance, slugify(instance.username))
+
+
+@receiver(models.post_save, sender=auth_models.User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.User.save()
