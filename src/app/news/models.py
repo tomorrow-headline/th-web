@@ -22,7 +22,7 @@ class Comment(models.Model):
         return self.content
 
 
-class User(models.Model):
+class Profile(models.Model):
     nickname = models.CharField(max_length=20)
     bio = models.TextField(max_length=500, blank=True)
     ico = models.ImageField(blank=True)
@@ -32,9 +32,9 @@ class User(models.Model):
 @receiver(models.post_save, sender=auth_models.User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        User.objects.create(user=instance, slugify(instance.username))
+        Profile.objects.create(user=instance, slugify(instance.username))
 
 
 @receiver(models.post_save, sender=auth_models.User)
 def save_user_profile(sender, instance, **kwargs):
-    instance.User.save()
+    instance.Profile.save()
