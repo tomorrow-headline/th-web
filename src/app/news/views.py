@@ -11,3 +11,8 @@ class ArticleViewSet(viewsets.ReadOnlyModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = models.Comment.objects.all()
     serializer_class = serializers.CommentSerializer
+
+
+class ProfileViewSet(viewsets.ModelViewSet):
+    queryset = models.Profile.objects.all()
+    serializer_class = serializers.ProfileSerializer
