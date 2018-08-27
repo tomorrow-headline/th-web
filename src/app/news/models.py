@@ -32,7 +32,10 @@ class Profile(models.Model):
 @receiver(models.post_save, sender=auth_models.User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        Profile.objects.create(user=instance, slugify(instance.username))
+        Profile.objects.create(
+            user=instance,
+            nickname=slugify(instance.username)
+        )
 
 
 @receiver(models.post_save, sender=auth_models.User)
