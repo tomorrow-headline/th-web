@@ -1,5 +1,6 @@
 from django.contrib.auth import models as auth_models
 from django.db import models
+from django.db.models import signals
 from django.dispatch import receiver
 from django.utils.text import slugify
 
@@ -29,7 +30,7 @@ class Profile(models.Model):
     user = models.OneToOneField(auth_models.User, on_delete=models.CASCADE)
 
 
-@receiver(models.post_save, sender=auth_models.User)
+@receiver(signals.post_save, sender=auth_models.User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(
@@ -38,6 +39,6 @@ def create_user_profile(sender, instance, created, **kwargs):
         )
 
 
-@receiver(models.post_save, sender=auth_models.User)
+@receiver(signals.post_save, sender=auth_models.User)
 def save_user_profile(sender, instance, **kwargs):
     instance.Profile.save()
