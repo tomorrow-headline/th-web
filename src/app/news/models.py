@@ -46,4 +46,4 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 @receiver(signals.post_save, sender=auth_models.User)
 def save_user_profile(sender, instance, **kwargs):
-    instance.Profile.save()
+    instance.profile.save()

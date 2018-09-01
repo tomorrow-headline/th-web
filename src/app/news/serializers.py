@@ -5,15 +5,20 @@ from news import models
 
 
 class ArticleSerializer(serializers.ModelSerializer):
+    comments = serializers.PrimaryKeyRelatedField(
+        many=True,
+        read_only=True
+    )
+
     class Meta:
         model = models.Article
-        fields = ('title', 'author', 'excerpt', 'content', )
+        fields = ('title', 'author', 'excerpt', 'content', 'comments', )
 
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Comment
-        fields = ('author', 'content', )
+        fields = ('author', 'content', 'ref', )
 
 
 class UserSerializer(serializers.ModelSerializer):

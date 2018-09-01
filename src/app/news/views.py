@@ -18,11 +18,6 @@ class CommentViewSet(viewsets.ModelViewSet):
         if not request.user.is_authenticated:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        request.data['author'] = request.user.username
-        request.data['ref'] = get_object_or_404(
-            models.Article,
-            pk=request.data['article_pk']
-        )
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
