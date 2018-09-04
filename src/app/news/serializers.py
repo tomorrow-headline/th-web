@@ -27,7 +27,21 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('username', 'password', 'email', )
 
 
+class SpecificPrimaryKeyRelatedField(serializers.PrimaryKeyRelatedField):
+    def get_queryset(self):
+        request = self.context.get('request', None)
+        queryset = super(SpecificPrimaryKeyRelatedField, self).get_queryset()
+        if not request or not queryset:
+            return None
+        return queryset.filter(author=request.user)
+
+
 class ProfileSerializer(serializers.ModelSerializer):
+    comments = SpecificPrimaryKeyRelatedField(
+        many=True,
+        queryset=models.Comment.objects.all()
+    )
+
     class Meta:
         model = models.Profile
         fields = ('url', 'nickname', 'bio', 'ico', )
