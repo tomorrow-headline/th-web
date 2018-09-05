@@ -11,6 +11,9 @@ class Profile(models.Model):
     ico = models.ImageField(blank=True)
     user = models.OneToOneField(auth_models.User, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.nickname
+
 
 @receiver(signals.post_save, sender=auth_models.User)
 def create_user_profile(sender, instance, created, **kwargs):
