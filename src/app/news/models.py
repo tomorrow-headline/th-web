@@ -1,4 +1,4 @@
-from django.contrib.auth import models as auth_models
+from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import signals
 from django.dispatch import receiver
@@ -9,13 +9,13 @@ class Profile(models.Model):
     nickname = models.CharField(max_length=20)
     bio = models.TextField(max_length=500, blank=True)
     ico = models.ImageField(blank=True)
-    user = models.OneToOneField(auth_models.User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.nickname
 
 
-@receiver(signals.post_save, sender=auth_models.User)
+@receiver(signals.post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(
@@ -24,7 +24,7 @@ def create_user_profile(sender, instance, created, **kwargs):
         )
 
 
-@receiver(signals.post_save, sender=auth_models.User)
+@receiver(signals.post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
