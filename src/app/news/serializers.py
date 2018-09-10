@@ -41,7 +41,17 @@ class ProfileSerializer(serializers.ModelSerializer):
         many=True,
         queryset=models.Comment.objects.all()
     )
+    user = UserSerializer()
 
     class Meta:
         model = models.Profile
-        fields = ('url', 'nickname', 'bio', 'ico', 'comments', )
+        fields = ('user', 'nickname', 'bio', 'ico', 'comments', )
+
+    def create(self, validated_data):
+        user = UserSerializer.create(
+            UserSerializer(),
+            validated_data=validated_data['user']
+        )
+        validated_data['user'] = user
+
+        return super(ProfileSerializer, self).create(validated_data)
