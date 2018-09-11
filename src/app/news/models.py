@@ -15,20 +15,6 @@ class Profile(models.Model):
         return self.nickname
 
 
-@receiver(signals.post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(
-            user=instance,
-            nickname=slugify(instance.username)
-        )
-
-
-@receiver(signals.post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
-
-
 class Article(models.Model):
     title = models.CharField(max_length=100)
     author = models.CharField(max_length=50)
