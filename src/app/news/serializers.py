@@ -26,20 +26,18 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('username', 'password', 'email', )
 
+    def create(self, validated_data):
+        instance = super(UserSerializer, self).create(validated_data)
+        instance.set_password(validated_data['password'])
+        instance.save()
 
-class SpecificPrimaryKeyRelatedField(serializers.PrimaryKeyRelatedField):
-    def get_queryset(self):
-        request = self.context.get('request', None)
-        queryset = super(SpecificPrimaryKeyRelatedField, self).get_queryset()
-        if not request or not queryset:
-            return None
-        return queryset.filter(author=request.user)
+        return instance
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    comments = SpecificPrimaryKeyRelatedField(
-        many=True,
-        queryset=models.Comment.objects.all()
+    comments = serializers.PrimaryKeyRelatedField(
+        read_only=True,
+        many=True
     )
     user = UserSerializer()
 
