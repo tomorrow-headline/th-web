@@ -1,4 +1,5 @@
 from django.urls import include, path
+from django.views.generic import TemplateView
 from rest_framework import routers
 
 from news import views
@@ -11,4 +12,5 @@ news_router.register('users', views.ProfileViewSet)
 app_name = 'news'
 urlpatterns = [
     path('api/news/', include(news_router.urls)),
+    path('news/', TemplateView.as_view(template_name='index.html')),
 ]

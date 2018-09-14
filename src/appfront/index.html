@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#articles',
+            data: {
+                article_list: [],
+                article: {},
+                loading: false,
+            },
+            mounted: function () {
+                this.getArticleList();
+            },
+            methods: {
+                getArticleList() {
+                    this.loading = true;
+                    axios.get('/api/news/articles/').then(
+                        (response) => {
+                            this.article_list = response.data;
+                            this.loading = false;
+                        }).catch(
+                            (err) => {
+                                this.loading = false;
+                                console.log(err);
+                            }
+                        )
+                },
+                getArticle() {
+                    this.loading = true;
+                    axios.get('/api/news/articles/${pk}/').then(
+                        (response) => {
+                            this.article = response.data;
+                            this.loading = false;
+                        }).catch(
+                            (err) => {
+                                this.loading = false;
+                                console.log(err);
+                            }
+                        )
+                }
+            }
+        })
+    </script>
+
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="articles">
+        <div>{{article_list}}</div>
+    </div>
+</body>
+
+</html>
