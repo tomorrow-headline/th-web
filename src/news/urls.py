@@ -8,6 +8,7 @@ news_router = routers.DefaultRouter()
 news_router.register('articles', views.ArticleViewSet)
 news_router.register('comments', views.CommentViewSet)
 news_router.register('users', views.ProfileViewSet)
+news_router.register('tags', views.TagViewSet)
 
 app_name = 'news'
 urlpatterns = [

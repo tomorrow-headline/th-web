@@ -53,3 +53,14 @@ class ProfileSerializer(serializers.ModelSerializer):
         validated_data['user'] = user
 
         return super(ProfileSerializer, self).create(validated_data)
+
+
+class TagSerializer(serializers.ModelSerializer):
+    articles = serializers.PrimaryKeyRelatedField(
+        many=True,
+        read_only=True
+    )
+
+    class Meta:
+        model = models.Tag
+        fields = ('name', 'articles', )

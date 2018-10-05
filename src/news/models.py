@@ -15,11 +15,23 @@ class Profile(models.Model):
         return self.nickname
 
 
+class Tag(models.Model):
+    name = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.name
+
+
 class Article(models.Model):
     title = models.CharField(max_length=100)
     author = models.CharField(max_length=50)
     excerpt = models.TextField(max_length=200)
     content = models.TextField()
+    tags = models.ForeignKey(
+        Tag,
+        on_delete=models.CASCADE,
+        related_name='articles'
+    )
 
     def __str__(self):
         return self.title
